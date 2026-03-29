@@ -1,0 +1,52 @@
+<div class="page-center">
+  @if (game(); as g) {
+    <p-card styleClass="page-card">
+      <div class="form-stack">
+
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="color: var(--p-text-muted-color); font-size: 0.875rem;">
+            Question {{ g.currentQuestion + 1 }} of {{ g.questions.length }}
+          </span>
+          <p-tag [value]="roomCode" severity="secondary" />
+        </div>
+
+        @if (currentQuestion(); as q) {
+          <div class="form-stack">
+            @if (q.category) {
+              <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--p-text-muted-color);">
+                {{ q.category }}
+              </span>
+            }
+            <h2 style="margin: 0; font-size: 1.25rem;">{{ q.text }}</h2>
+          </div>
+
+          @if (hasAnswered()) {
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem; padding: 1.5rem; background: var(--p-surface-100); border-radius: 0.5rem;">
+              <p-progress-spinner strokeWidth="4" [style]="{ width: '40px', height: '40px' }" />
+              <p style="margin: 0; color: var(--p-text-muted-color);">Waiting for other players...</p>
+            </div>
+          } @else {
+            <div class="form-stack">
+              <input pInputText [(ngModel)]="answerInput" placeholder="Your answer..."
+                (keyup.enter)="submitAnswer()" autofocus />
+              <p-button label="Submit Answer" icon="pi pi-check" [loading]="submitting()"
+                (onClick)="submitAnswer()" styleClass="w-full" />
+            </div>
+          }
+        }
+
+        <p-divider />
+        <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: var(--p-text-muted-color);">
+          @for (player of g.players; track player.name) {
+            <span [style.font-weight]="player.name === playerName ? '700' : '400'">
+              {{ player.name }}
+            </span>
+          }
+        </div>
+
+      </div>
+    </p-card>
+  } @else {
+    <p-progress-spinner />
+  }
+</div>

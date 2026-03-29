@@ -1,0 +1,43 @@
+<div class="page-center">
+  <p-card header="QuizMe" styleClass="page-card">
+    <p-tabs value="0">
+      <p-tablist>
+        <p-tab value="0">Host a Game</p-tab>
+        <p-tab value="1">Join a Game</p-tab>
+      </p-tablist>
+      <p-tabpanels>
+
+        <!-- HOST -->
+        <p-tabpanel value="0">
+          <div class="form-stack">
+            <div class="field">
+              <label>Your Name</label>
+              <input pInputText [(ngModel)]="hostName" placeholder="e.g. Alice" />
+            </div>
+            <div class="field">
+              <label>Number of Players</label>
+              <input pInputText type="number" [(ngModel)]="numberOfPlayers" min="2" />
+            </div>
+            <p-button label="Create Game" icon="pi pi-play" [loading]="loading()" (onClick)="createGame()" styleClass="w-full" />
+          </div>
+        </p-tabpanel>
+
+        <!-- JOIN -->
+        <p-tabpanel value="1">
+          <div class="form-stack">
+            <div class="field">
+              <label>Room Code</label>
+              <input pInputText [(ngModel)]="joinRoomCode" placeholder="e.g. XK42" style="text-transform: uppercase" />
+            </div>
+            <div class="field">
+              <label>Your Name</label>
+              <input pInputText [(ngModel)]="joinName" placeholder="e.g. Bob" />
+            </div>
+            <p-button label="Join Game" icon="pi pi-sign-in" [loading]="loading()" (onClick)="joinGame()" styleClass="w-full" />
+          </div>
+        </p-tabpanel>
+
+      </p-tabpanels>
+    </p-tabs>
+  </p-card>
+</div>

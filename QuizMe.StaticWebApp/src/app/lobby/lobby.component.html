@@ -1,0 +1,27 @@
+<div class="page-center">
+  <p-card styleClass="page-card text-center">
+    <div class="form-stack" style="align-items: center;">
+      <h2 style="margin: 0;">Waiting for players...</h2>
+
+      <div class="room-code">{{ roomCode }}</div>
+      <p style="margin: 0; color: var(--p-text-muted-color);">Share this code with other players</p>
+
+      @if (game()) {
+        <div class="form-stack" style="width: 100%;">
+          <p style="margin: 0; font-weight: 600;">
+            Players joined ({{ game()!.players.length }} / {{ game()!.numberOfPlayers }})
+          </p>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center;">
+            @for (player of game()!.players; track player.name) {
+              <p-chip
+                [label]="player.name + (player.name === playerName ? ' (you)' : '')"
+                icon="pi pi-user" />
+            }
+          </div>
+        </div>
+      } @else {
+        <p-progress-spinner strokeWidth="4" />
+      }
+    </div>
+  </p-card>
+</div>

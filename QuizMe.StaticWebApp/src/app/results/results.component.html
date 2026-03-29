@@ -1,0 +1,40 @@
+<div class="page-center">
+  @if (game(); as g) {
+    <p-card header="Game Over!" styleClass="page-card text-center">
+      <div class="form-stack" style="align-items: center;">
+
+        @if (g.winners.length === 1) {
+          <div class="form-stack" style="align-items: center;">
+            <span style="font-size: 3rem;">🏆</span>
+            <h2 style="margin: 0;">{{ g.winners[0].name }} wins!</h2>
+          </div>
+        } @else {
+          <div class="form-stack" style="align-items: center;">
+            <span style="font-size: 3rem;">🤝</span>
+            <h2 style="margin: 0;">It's a tie!</h2>
+          </div>
+        }
+
+        <p-divider styleClass="w-full" />
+
+        <div class="form-stack" style="width: 100%;">
+          @for (entry of sortedScores(); track entry.name) {
+            <div class="score-row" [style.background]="isWinner(entry.name) ? 'var(--p-yellow-50)' : 'var(--p-surface-50)'">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                @if (isWinner(entry.name)) { <span>🥇</span> }
+                <span [style.font-weight]="entry.name === playerName ? '700' : '400'">
+                  {{ entry.name }}{{ entry.name === playerName ? ' (you)' : '' }}
+                </span>
+              </div>
+              <p-tag [value]="entry.score + ' / ' + g.questions.length" />
+            </div>
+          }
+        </div>
+
+        <p-button label="Play Again" icon="pi pi-refresh" routerLink="/" styleClass="w-full" />
+      </div>
+    </p-card>
+  } @else {
+    <p-progress-spinner />
+  }
+</div>

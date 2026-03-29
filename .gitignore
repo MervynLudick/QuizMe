@@ -1,0 +1,16 @@
+# Azure Functions
+QuizMe.StaticWebApp/api/local.settings.json
+QuizMe.StaticWebApp/api/bin/
+QuizMe.StaticWebApp/api/obj/
+
+# Angular
+QuizMe.StaticWebApp/node_modules/
+QuizMe.StaticWebApp/dist/
+
+# OS
+.DS_Store
+
+# Rider / VS
+.idea/
+.vs/
+*.user
