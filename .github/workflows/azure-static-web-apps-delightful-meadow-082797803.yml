@@ -34,7 +34,7 @@ jobs:
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
           app_location: "QuizMe.StaticWebApp" # App source code path
           api_location: "QuizMe.StaticWebApp/api" # Api source code path - optional
-          output_location: "dist/quiz-me.static-web-app/browser" # Built app content directory - optional
+          output_location: "dist/QuizMe.StaticWebApp/browser" # Built app content directory - optional
         env:
           AzureWebJobsStorage: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
           ###### End of Repository/Build Configurations ######
