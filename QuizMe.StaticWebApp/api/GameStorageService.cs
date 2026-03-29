@@ -6,21 +6,34 @@ namespace api;
 
 public class GameStorageService
 {
-    private readonly TableClient _tableClient;
+    private readonly string _connectionString;
+    private TableClient? _tableClient;
     private const string PartitionKey = "Games";
 
     public GameStorageService(string connectionString)
     {
-        var serviceClient = new TableServiceClient(connectionString);
-        _tableClient = serviceClient.GetTableClient("Games");
-        _tableClient.CreateIfNotExists();
+        _connectionString = connectionString;
+    }
+
+    private TableClient TableClient
+    {
+        get
+        {
+            if (_tableClient == null)
+            {
+                var client = new TableServiceClient(_connectionString).GetTableClient("Games");
+                client.CreateIfNotExists();
+                _tableClient = client;
+            }
+            return _tableClient;
+        }
     }
 
     public async Task<Game?> GetGameAsync(string roomCode)
     {
         try
         {
-            var response = await _tableClient.GetEntityAsync<GameEntity>(PartitionKey, roomCode);
+            var response = await TableClient.GetEntityAsync<GameEntity>(PartitionKey, roomCode);
             return JsonSerializer.Deserialize<Game>(response.Value.GameJson);
         }
         catch (RequestFailedException ex) when (ex.Status == 404)
@@ -38,7 +51,7 @@ public class GameStorageService
             RowKey = roomCode,
             GameJson = JsonSerializer.Serialize(game)
         };
-        await _tableClient.AddEntityAsync(entity);
+        await TableClient.AddEntityAsync(entity);
         return roomCode;
     }
 
@@ -50,7 +63,7 @@ public class GameStorageService
             RowKey = roomCode,
             GameJson = JsonSerializer.Serialize(game)
         };
-        await _tableClient.UpsertEntityAsync(entity);
+        await TableClient.UpsertEntityAsync(entity);
     }
 
     private static string GenerateRoomCode()

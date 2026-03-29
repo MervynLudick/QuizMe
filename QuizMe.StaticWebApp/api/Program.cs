@@ -7,8 +7,7 @@ var builder = FunctionsApplication.CreateBuilder(args);
 
 builder.ConfigureFunctionsWebApplication();
 
-var storageConnection = Environment.GetEnvironmentVariable("AzureWebJobsStorage")
-    ?? throw new InvalidOperationException("AzureWebJobsStorage is not configured.");
+var storageConnection = Environment.GetEnvironmentVariable("QUIZ_STORAGE_CONNECTION") ?? string.Empty;
 
 builder.Services
     .AddSingleton(new api.GameStorageService(storageConnection))
