@@ -7,12 +7,10 @@ var builder = FunctionsApplication.CreateBuilder(args);
 
 builder.ConfigureFunctionsWebApplication();
 
-var storageConnection = Environment.GetEnvironmentVariable("QUIZ_STORAGE_CONNECTION") ?? string.Empty;
+var storageConnection = Environment.GetEnvironmentVariable("AzureWebJobsStorage") ?? string.Empty;
 
 builder.Services
     .AddSingleton(new api.GameStorageService(storageConnection))
-    .AddSingleton(new api.QuestionService(storageConnection))
-    .AddApplicationInsightsTelemetryWorkerService()
-    .ConfigureFunctionsApplicationInsights();
+    .AddSingleton(new api.QuestionService(storageConnection));
 
 builder.Build().Run();
